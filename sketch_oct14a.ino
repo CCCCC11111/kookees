@@ -13,12 +13,12 @@ int v;
 int vxn;
 int vyn;
 float power;
-float Ctrampa =0.0005;
+float Ctrampa =0.005;
 // Pines del primer puente H (Motor 1 y Motor 2)
-const int IN1 = 22;
-const int IN2 = 24;
-const int IN3 = 26;
-const int IN4 = 28;
+const int IN1 = 24;
+const int IN2 = 22;
+const int IN3 = 28;
+const int IN4 = 26;
 const int ENA = 10;  // PWM para Motor 1
 const int ENB = 11;  // PWM para Motor 2
 
@@ -63,11 +63,14 @@ void encoderea(){
         state=true;
       }
       if(pstate!=state){
+        pstate=state;
 
       if(FRForward){
+        Serial.println(FRcounter);
         FRcounter++;
       }
       else{
+        Serial.println(FRcounter);
         FRcounter--;
       }
       if(FLForward){
@@ -106,43 +109,43 @@ void FRMover(int v){
     analogWrite(ENA, -v);
   }
 }
-void FLMover(int v){
+void BRMover(int v){
   if(v>0){
-    FLForward = true;
+    BRForward = true;
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     analogWrite(ENB, v);
   }
   else{
-    FLForward = false;
+    BRForward = false;
     digitalWrite(IN3, HIGH);
     digitalWrite(IN4, LOW);
     analogWrite(ENB, -v);
   }
 }
-void BLMover(int v){
+void FLMover(int v){
   if(v>0){
-    BLForward =true;
+    FLForward =true;
     digitalWrite(IN5, HIGH);
     digitalWrite(IN6, LOW);
     analogWrite(ENC, v);
   }
   else{
-    BLForward =false;
+    FLForward =false;
     digitalWrite(IN5, HIGH);
     digitalWrite(IN6, LOW);
     analogWrite(ENC, -v);
   }
 }
-void BRMover(int v){
+void BLMover(int v){
   if(v>0){
-    BRForward = true;
+    BLForward = true;
     digitalWrite(IN7, HIGH);
     digitalWrite(IN8, LOW);
     analogWrite(END, v);
   }
   else{
-    BRForward =false;
+    BLForward =false;
     digitalWrite(IN7, HIGH);
     digitalWrite(IN8, LOW);
     analogWrite(END, -v);
@@ -164,8 +167,8 @@ float trampa(float P){
 
 
 void moverXY(int vx,int vy, float P) {
-    vxn=floor(vx*(510/abs(vx+vy)));
-    vyn=floor(vy*(510/abs(vx+vy)));
+    vxn=floor(vx*(510/(abs(vx)+abs(vy))));
+    vyn=floor(vy*(510/(abs(vx)+abs(vy))));
     FLMover(floor((vxn/2-vyn/2)*P));
     FRMover(floor((vxn/2+vyn/2)*P));
     BLMover(floor((vxn/2+vyn/2)*P));
@@ -173,6 +176,13 @@ void moverXY(int vx,int vy, float P) {
     encoderea();
 }
 
-void loop(){  
-      moverXY(1,1,trampa(1));
+void loop(){
+      if(BRcounter<500){  
+      moverXY(1,0,1);
+      }
+      if(BRcounter<1000&&BRcounter>=500){  
+        moverXY(1,-1,1);
+        }
+
+
 }
