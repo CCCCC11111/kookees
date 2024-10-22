@@ -171,7 +171,6 @@ void moverXY(int vx,int vy, float P) {
     encoderea();
 }
 void loop(){
-   
       encoderea();
       if(BRcounter<500){  
         BRMover(255); 
