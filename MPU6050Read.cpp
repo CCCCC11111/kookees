@@ -9,10 +9,11 @@
 */
 #include "I2Cdev.h"
 #include "MPU6050.h"
+#include <Arduino.h>
 
 /* MPU6050 default I2C address is 0x68*/
 //MPU6050 mpu;
-MPU6050 mpu(0x68);         //Use for AD0 high
+MPU6050 mpu(0x68);            //Use for AD0 high
 //MPU6050 mpu(0x68, &Wire1); //Use for AD0 low, but 2nd Wire (TWI/I2C) object.
 
 /* OUTPUT FORMAT DEFINITION----------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ int ax_o,ay_o,az_o;
 int gx_o,gy_o,gz_o;
 
 
-void setup() {
+void MPUsetup() {
   /*--Start I2C interface--*/
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin(); 
@@ -94,7 +95,8 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 }
 
-void loop() {
+
+void readMPU() {
   /* Read raw accel/gyro data from the module. Other methods commented*/
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
   //mpu.getAcceleration(&ax, &ay, &az);
@@ -162,7 +164,7 @@ void loop() {
    
 
   //Cada 100 lecturas corregir el offset
-  
+  //Calibración rudimentaria
     
     //Mostrar las lecturas separadas por un [tab]
     /*
@@ -214,12 +216,5 @@ void loop() {
   Serial.print(mpu.getZGyroOffset());
   Serial.print("\n");
   */
-  
-  
-  
-  
-
   /*Blink LED to indicate activity*/
-  blinkState = !blinkState;
-  digitalWrite(LED_BUILTIN, blinkState);
-}
+  blinkState = !blinkState

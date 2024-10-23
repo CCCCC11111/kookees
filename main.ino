@@ -1,3 +1,4 @@
+#include "MPU6050Read.cpp"
 int Encoder1 = A0;
 int Encoder2= A1;
 bool FRForward =true;
@@ -171,6 +172,7 @@ void moverXY(int vx,int vy, float P) {
     encoderea();
 }
 void loop(){
+   
       encoderea();
       if(BRcounter<500){  
         BRMover(255); 
