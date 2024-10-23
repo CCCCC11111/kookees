@@ -217,4 +217,5 @@ void readMPU() {
   Serial.print("\n");
   */
   /*Blink LED to indicate activity*/
-  blinkState = !blinkState
+  blinkState = !blinkState;
+ 
