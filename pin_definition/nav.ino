@@ -1,6 +1,6 @@
-long D=0;
-long I=0;
-//long C=0;
+long RD=0;
+long LD=0;
+long CD=0;
 
 void setup(){
   pinMode(Encoder1, INPUT);
@@ -22,24 +22,33 @@ void setup(){
 
   pinMode(US_RT, OUTPUT); 
   pinMode(US_RE, INPUT); 
-  digitalWrite(US_RT, LOW);
+  pinMode(US_LT, OUTPUT);
+  pinMode(US_LE, INPUT);
+  pinMode(US_CT, OUTPUT);
+  pinMode(US_CE, INPUT);
+  //digitalWrite(US_RT, LOW);
 
   Serial.begin(9600);
 }
 
 void loop(){
-  //detect(US_RE, US_RT);
-  D=detect(US_RE, US_RT);
-  I=detect(US_LE, US_LT);
-  if (D<10){
-    FRMover(130);
+  RD=detect(US_RE, US_RT);
+  LD=detect(US_LE, US_LT);
+  CD=detect(US_CE, US_CT);
+
+  if (RD<10){
+    Serial.print("Derecha=");
+    Serial.println(RD);
+    moverXY(0,1,1);
   }
-  else if (I<10){
-    FLMover(130);
+  else if (LD<10){
+    Serial.print("Izquierda=");
+    Serial.println(LD);
+    moverXY(0,-1,1);
   }
-  else{
-    moverXY(0,1,0);
-    Serial.print("N");
-  }
-  
+  else if(CD<10){
+    Serial.print("Centro=");
+    Serial.println(CD);
+    moverXY(-1,0,1);
+  } 
 }

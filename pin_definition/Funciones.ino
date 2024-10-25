@@ -48,8 +48,8 @@ void FRMover(int v){
   }
   else if(v <0){
     FRForward =false;
-    digitalWrite(FRM1, HIGH);
-    digitalWrite(FRM2, LOW);
+    digitalWrite(FRM1, LOW);
+    digitalWrite(FRM2, HIGH);
     analogWrite(PWM_FRM, -v);
   }
     else{
@@ -66,8 +66,8 @@ void BRMover(int v){
   }
   else if(v < 0){
     BRForward = false;
-    digitalWrite(BRM1, HIGH);
-    digitalWrite(BRM2, LOW);
+    digitalWrite(BRM1, LOW);
+    digitalWrite(BRM2, HIGH);
     analogWrite(PWM_BRM, -v);
   }
     else{
@@ -84,8 +84,8 @@ void FLMover(int v){
   }
   else if(v < 0){
     FLForward =false;
-    digitalWrite(FLM1, HIGH);
-    digitalWrite(FLM2, LOW);
+    digitalWrite(FLM1, LOW);
+    digitalWrite(FLM2, HIGH);
     analogWrite(PWM_FLM, -v);
   }
     else{
@@ -103,8 +103,8 @@ void BLMover(int v){
   }
   else if(v < 0){
     BLForward =false;
-    digitalWrite(BLM1, HIGH);
-    digitalWrite(BLM2, LOW);
+    digitalWrite(BLM1, LOW);
+    digitalWrite(BLM2, HIGH);
     analogWrite(PWM_BLM, -v);
   }
   else{
