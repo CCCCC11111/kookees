@@ -8,12 +8,14 @@
   https://github.com/ElectronicCats/mpu6050/wiki
 */
 #include "I2Cdev.h"
+#include "Constants.h"
 #include "MPU6050.h"
+#include "MPU6050Read.h"
 #include <Arduino.h>
 
 /* MPU6050 default I2C address is 0x68*/
 //MPU6050 mpu;
-MPU6050 mpu(0x68);            //Use for AD0 high
+//Use for AD0 high
 //MPU6050 mpu(0x68, &Wire1); //Use for AD0 low, but 2nd Wire (TWI/I2C) object.
 
 /* OUTPUT FORMAT DEFINITION----------------------------------------------------------------------------------
@@ -28,8 +30,6 @@ This output format is used as an output.
 //#define OUTPUT_BINARY_ACCELGYRO
 
 int16_t ax, ay, az;
-float Ca = (9.81/16384.0);
-float Cg = (250.0/32768.0);
 int16_t gx, gy, gz;
 float gxa,gya,gza,axa,aya,aza = 0;
 bool blinkState;
@@ -43,17 +43,17 @@ int counter=0;
 int ax_o,ay_o,az_o;
 int gx_o,gy_o,gz_o;
 
-
-void MPUsetup() {
+MPU6050Read::MPU6050Read(){
+  setup();
+}
+MPU6050Read::setup(){
   /*--Start I2C interface--*/
   #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
     Wire.begin(); 
   #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
     Fastwire::setup(400, true);
   #endif
-
-  Serial.begin(38400); //Initializate Serial wo work well at 8MHz/16MHz
-
+  Serial.begin(9600); //Initializate Serial wo work well at 8MHz/16MHz
   /*Initialize device and check connection*/ 
   Serial.println("Initializing MPU...");
   mpu.initialize();
@@ -65,7 +65,6 @@ void MPUsetup() {
   else{
     Serial.println("MPU6050 connection successful");
   }
-
   /* Use the code below to change accel/gyro offset values. Use MPU6050_Zero to obtain the recommended offsets */ 
   Serial.println("Updating internal sensor offsets...\n");
   /*Print the defined offsets*/
@@ -88,15 +87,10 @@ void MPUsetup() {
   Serial.print("\t");
   Serial.print(mpu.getZGyroOffset());
   Serial.print("\n");
-  
-  delay(1000);
-
-  /*Configure board LED pin for output*/ 
-  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 
-void readMPU() {
+void MPU6050Read::read() {
   /* Read raw accel/gyro data from the module. Other methods commented*/
   mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
   //mpu.getAcceleration(&ax, &ay, &az);
@@ -144,7 +138,7 @@ void readMPU() {
   aza=aza+az;
   if(counter ==999){
   Serial.print("a/g:\t");
-    Serial.print(axa/1000 * Ca); Serial.print("\t");
+    Serial.print(axa/999 * Ca); Serial.print("\t");
     Serial.print(aya/1000* Ca); Serial.print("\t");
     Serial.print(aza/1000* Ca*57); Serial.print("\t");
     Serial.print(gxa/1000* Cg); Serial.print("\t");
@@ -218,4 +212,5 @@ void readMPU() {
   */
   /*Blink LED to indicate activity*/
   blinkState = !blinkState;
+}
  
