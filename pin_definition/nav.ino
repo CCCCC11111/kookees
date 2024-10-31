@@ -31,12 +31,40 @@ void setup(){
   Serial.begin(9600);
 }
 
+//El robot cambia de frente para la primera pista
 void loop(){
   RD=detect(US_RE, US_RT);
   LD=detect(US_LE, US_LT);
   CD=detect(US_CE, US_CT);
 
-  if (RD<10){
+  moverXY(1,0,1);
+
+  if(RD<7 && LD<7){ //Si detecta pared en ambos lados
+    if(CD<7){ //pared en ambos lados y adelante
+      moverXY(1,0,1); //hacia atras
+    }
+    moverXY(-1,0,1); //Avanza hacia adelante (invertido)
+  }
+  //Pared detras
+  else if(CD<7){
+    if(RD<7){ //Pared atras y derecha
+      moverXY(0,-1,1); //Avanza a la izquierda
+    }
+    else if(LD<7){ //Pared frente e izquierda
+      moverXY(0,1,1); //Avanza a la derecha
+    }
+    moverXY(0,1,1); //Avanza a la derecha
+  }
+  //Pared a la derecha
+  else if(RD<7){ //Detecta a la derecha
+    moverXY(1,0,1); //Avanza adelante
+  }
+  else if(LD<7){ //Detecta a la izquierda
+    moverXY(1,0,1); //Avanza adelante
+  }
+  
+
+  /*if (RD<10){
     Serial.print("Derecha=");
     Serial.println(RD);
     moverXY(0,1,1);
@@ -50,5 +78,5 @@ void loop(){
     Serial.print("Centro=");
     Serial.println(CD);
     moverXY(-1,0,1);
-  } 
+  } */
 }

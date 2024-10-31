@@ -1,2 +1,2 @@
 leeme
-Buenas Tardes, somo saludables chistosos, hipoalegénicos y agradables, creemos que mpor estas, entre otras cualidades, seríamos imprecindibles para bla bla bla
+Buenas tardes, somos saludables, chistosos, hipoalergénicos y agradables, creemos que por éstas, entre otras cualidades, seríamos imprescindibles para blah blah blah.
