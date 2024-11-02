@@ -3,9 +3,10 @@
 
 class Gripper{
   public:
-    Gripper(int servopin1_, int servopin2_);
+  Gripper(int servopin1_, int servopin2_);
   void abrir();
   void cerrar();
+  void setup();
     
   private:
     int pinservo1;
