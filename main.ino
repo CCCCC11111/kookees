@@ -45,7 +45,7 @@ const int END = 13;  // PWM para Motor 4
 
 PID pid1 = PID(0.01, 1, -1, 0.25, 0.0, 0.02);
 PID pid2 = PID(0.01, 1, -1, 0.25, 0.0, 0.02);
-PID pidlinea = PID(0.01, 2, -2, 0.0006, 0.0001, 0.0001);
+PID pidlinea = PID(0.01, 2, -2, 0.0006, 0.0005, 0.0002);
 int position = 0;    
 Gripper gripper = Gripper(2,3);
 #define trigPin1 40  // Ultrasonico 1 (Izquierdo)
@@ -429,9 +429,6 @@ void loop(){
   rotacion = pidlinea.calculate(3500,position);
 
   moverlinea(1,rotacion,0.8);
-  
-
-  
 
  
 
@@ -611,7 +608,7 @@ void loop(){
 
 
   }
-  */
+*/  
   
   
 
@@ -620,8 +617,7 @@ void loop(){
   
   
   
-  
-moverXY(1,0,1)
+
 
 
   // Imprimir las distancias en el monitor serial
